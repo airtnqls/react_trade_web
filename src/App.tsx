@@ -10,6 +10,9 @@ import { ChatbotPage } from './pages/ChatbotPage';
 import { LogsPage } from './pages/LogsPage';
 import { ApiPage } from './pages/ApiPage';
 import { ProfitsPage } from './pages/ProfitsPage';
+import { TradebotPage } from './pages/TradebotPage';
+import { OrderPage } from './pages/OrderPage';
+import { MarketPage } from './pages/MarketPage';
 
 function Dashboard() {
   const stats = {
@@ -24,7 +27,7 @@ function Dashboard() {
     {
       id: '1',
       name: 'BTC/USDT 스캘핑',
-      status: 'active',
+      status: 'active' as const,
       strategy: 'Scalping',
       profit: 3.2,
       trades: 156,
@@ -33,7 +36,7 @@ function Dashboard() {
     {
       id: '2',
       name: 'ETH/USDT 그리드',
-      status: 'paused',
+      status: 'paused' as const,
       strategy: 'Grid',
       profit: -1.5,
       trades: 89,
@@ -42,7 +45,7 @@ function Dashboard() {
     {
       id: '3',
       name: 'SOL/USDT DCA',
-      status: 'stopped',
+      status: 'stopped' as const,
       strategy: 'DCA',
       profit: 5.7,
       trades: 45,
@@ -54,29 +57,29 @@ function Dashboard() {
     {
       id: '1',
       pair: 'BTC/USDT',
-      type: 'buy',
+      type: 'buy' as const,
       amount: 0.05,
       price: 65000,
       timestamp: new Date(),
-      status: 'completed',
+      status: 'completed' as const,
     },
     {
       id: '2',
       pair: 'ETH/USDT',
-      type: 'sell',
+      type: 'sell' as const,
       amount: 1.2,
       price: 3500,
       timestamp: new Date(),
-      status: 'pending',
+      status: 'pending' as const,
     },
     {
       id: '3',
       pair: 'SOL/USDT',
-      type: 'buy',
+      type: 'buy' as const,
       amount: 10,
       price: 120,
       timestamp: new Date(),
-      status: 'completed',
+      status: 'completed' as const,
     },
   ];
 
@@ -117,10 +120,12 @@ function App() {
             <Routes>
               <Route path="/" element={<Dashboard />} />
               <Route path="/assets" element={<AssetsPage />} />
-              <Route path="/bots" element={<Dashboard />} />
+              <Route path="/markets" element={<MarketPage />} />
+              <Route path="/tradebot" element={<TradebotPage />} />
               <Route path="/chatbot" element={<ChatbotPage />} />
               <Route path="/trades" element={<RecentTrades trades={[]} />} />
               <Route path="/profits" element={<ProfitsPage />} />
+              <Route path="/orders" element={<OrderPage />} />
               <Route path="/logs" element={<LogsPage />} />
               <Route path="/api" element={<ApiPage />} />
             </Routes>

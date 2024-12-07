@@ -100,34 +100,43 @@ export function PromptList({ prompts, onSelectPrompt, onUpdatePrompts }: PromptL
                 </div>
               </div>
             ) : (
-              <button
-                onClick={() => onSelectPrompt(prompt)}
-                className="text-left flex flex-col space-y-1 w-full"
-              >
-                <div className="flex items-center justify-between w-full">
+              <div className="text-left flex flex-col space-y-1 w-full">
+                <div
+                  onClick={() => onSelectPrompt(prompt)}
+                  className="flex items-center justify-between w-full cursor-pointer"
+                >
                   <div className="flex items-center space-x-2 flex-grow truncate">
                     <FileText className="w-4 h-4 text-gray-500" />
                     <span className="text-gray-700 truncate font-bold">{prompt.title}</span>
                   </div>
                   <div className="flex space-x-2 ml-auto">
-                    <button onClick={(e) => {
-                      e.stopPropagation();
-                      handleEditStart(prompt);
-                    }} className="text-gray-500">
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleEditStart(prompt);
+                      }}
+                      className="text-gray-500"
+                    >
                       <Edit className="w-4 h-4" />
                     </button>
-                    <button onClick={(e) => {
-                      e.stopPropagation();
-                      handleDelete(prompt.title);
-                    }} className="text-red-500">
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleDelete(prompt.title);
+                      }}
+                      className="text-red-500"
+                    >
                       <Trash2 className="w-4 h-4" />
                     </button>
                   </div>
                 </div>
-                <div className="flex flex-col items-start text-xs text-gray-500">
+                <div
+                  onClick={() => onSelectPrompt(prompt)}
+                  className="flex flex-col items-start text-xs text-gray-500 cursor-pointer"
+                >
                   <span className="whitespace-nowrap">{formatDate(prompt.date)}</span>
                 </div>
-              </button>
+              </div>
             )}
           </div>
         ))}

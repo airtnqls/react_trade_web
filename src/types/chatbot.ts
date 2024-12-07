@@ -6,7 +6,7 @@ export interface ChatMessage {
 }
 
 export interface Prompt {
-  id: string;
+  date: string;
   title: string;
   content: string;
 }

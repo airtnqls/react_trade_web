@@ -3,7 +3,7 @@ import { Save, Send } from 'lucide-react';
 import { ChatMessage } from '../components/chatbot/ChatMessage';
 import { PromptList } from '../components/chatbot/PromptList';
 import type { ChatMessage as ChatMessageType, Prompt } from '../types/chatbot';
-import { savePrompt, loadPrompts } from '../utils/promptManager';
+import { savePromptToFile, loadPromptsFromFile } from '../utils/filePromptManager';
 
 export function ChatbotPage() {
   const [messages, setMessages] = useState<ChatMessageType[]>([]);
@@ -12,14 +12,17 @@ export function ChatbotPage() {
   const [prompts, setPrompts] = useState<Prompt[]>([]);
   const chatContainerRef = useRef<HTMLDivElement>(null);
 
+  const updatePromptsList = async () => {
+    try {
+      const updatedPrompts = await loadPromptsFromFile();
+      setPrompts(updatedPrompts);
+    } catch (error) {
+      console.error('Failed to update prompts list:', error);
+    }
+  };
+
   useEffect(() => {
-    loadPrompts().then((loadedPrompts) => {
-      setPrompts(loadedPrompts.map((p, index) => ({
-        id: String(index),
-        title: p.title,
-        content: p.content
-      })));
-    });
+    updatePromptsList();
   }, []);
 
   useEffect(() => {
@@ -35,7 +38,7 @@ export function ChatbotPage() {
       id: Date.now().toString(),
       content: currentPrompt,
       role: 'user',
-      timestamp: new Date()
+      timestamp: new Date(),
     };
 
     setMessages((prev) => [...prev, newMessage]);
@@ -46,16 +49,16 @@ export function ChatbotPage() {
     if (!currentPrompt.trim() || !promptTitle.trim()) return;
 
     try {
-      await savePrompt(promptTitle, currentPrompt);
       const newPrompt: Prompt = {
-        id: Date.now().toString(),
+        date: Date.now().toString(),
         title: promptTitle,
-        content: currentPrompt
+        content: currentPrompt,
       };
-      setPrompts((prev) => [...prev, newPrompt]);
+      await savePromptToFile(newPrompt);
+      await updatePromptsList();
       setPromptTitle('');
     } catch (error) {
-      console.error('Failed to save prompt:', error);
+      console.error('Failed to save prompt to file:', error);
     }
   };
 
@@ -113,7 +116,11 @@ export function ChatbotPage() {
           </div>
         </div>
 
-        <PromptList prompts={prompts} onSelectPrompt={handleSelectPrompt} />
+        <PromptList
+          prompts={prompts}
+          onSelectPrompt={handleSelectPrompt}
+          onUpdatePrompts={updatePromptsList}
+        />
       </div>
     </div>
   );

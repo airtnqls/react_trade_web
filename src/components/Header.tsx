@@ -4,26 +4,26 @@ import { Settings, Moon, Bell } from 'lucide-react';
 
 export function Header() {
   const location = useLocation();
-  let title = "트레이딩 봇 대시보드";
+  let title = "대시보드";
 
   switch (location.pathname) {
     case "/assets":
-      title = "자산";
+      title = "자산현황";
       break;
     case "/markets":
       title = "마켓";
       break;
     case "/tradebot":
-      title = "거래 봇";
+      title = "거래봇";
       break;
     case "/chatbot":
       title = "챗봇";
       break;
     case "/trades":
-      title = "최근 거래";
+      title = "거래내역";
       break;
     case "/profits":
-      title = "투자 손익";
+      title = "투자손익";
       break;
     case "/orders":
       title = "주문";
@@ -32,10 +32,10 @@ export function Header() {
       title = "로그";
       break;
     case "/api":
-      title = "API";
+      title = "API현황";
       break;
     default:
-      title = "트레이딩 봇 대시보드";
+      title = "대시보드";
   }
 
 

@@ -1,5 +1,6 @@
+// INSERT_YOUR_REWRITE_HERE
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import {
   LayoutDashboard,
@@ -11,13 +12,13 @@ import {
   FileText,
   Key,
   ShoppingCart,
-  Bitcoin, // 추가
+  Bitcoin,
 } from 'lucide-react';
 
 const navItems = [
   { path: '/', icon: LayoutDashboard, label: '대시보드' },
   { path: '/assets', icon: Wallet, label: '자산현황' },
-  { path: '/markets', icon: Bitcoin, label: '마켓' }, // 추가
+  { path: '/markets', icon: Bitcoin, label: '마켓' },
   { path: '/tradebot', icon: Bot, label: '거래봇' },
   { path: '/chatbot', icon: MessageSquare, label: '챗봇' },
   { path: '/trades', icon: History, label: '거래내역' },
@@ -27,13 +28,19 @@ const navItems = [
   { path: '/api', icon: Key, label: 'API현황' },
 ];
 
-export function Navigation() {
+interface NavigationProps {
+    isCollapsed: boolean;
+  }
+
+export function Navigation({ isCollapsed }: NavigationProps) {
   return (
-    <nav className="bg-white border-r border-gray-200 w-64 min-h-screen fixed left-0 top-0">
+    <nav className={`bg-white border-r border-gray-200 min-h-screen fixed left-0 top-0 ${isCollapsed ? 'w-24' : 'w-64'}`}> {/* 여기에 클래스를 추가합니다. */}
       <div className="p-4">
-        <div className="flex items-center space-x-2 mb-8">
-          <Bot className="w-6 h-6 text-blue-500" />
-          <h1 className="text-xl font-bold text-gray-900">BitBot</h1>
+        <div className="flex items-center space-x-2 mb-8 justify-center">
+          <Bot className="w-7 h-7 text-blue-500 " />
+          {!isCollapsed && (
+            <h1 className="text-2xl font-bold text-blue-900">BitBot</h1>
+          )} 
         </div>
         <div className="space-y-2">
           {navItems.map(({ path, icon: Icon, label }) => (
@@ -45,11 +52,11 @@ export function Navigation() {
                   isActive
                     ? 'bg-blue-50 text-blue-600'
                     : 'text-gray-700 hover:bg-gray-100'
-                }`
+                } ${isCollapsed ? 'justify-center' : ''}`
               }
             >
               <Icon className="w-5 h-5" />
-              <span>{label}</span>
+              {!isCollapsed && <span className="ml-3">{label}</span>}
             </NavLink>
           ))}
         </div>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Navigation } from './components/Navigation';
 import { Header } from './components/Header';
@@ -110,11 +110,23 @@ function Dashboard() {
 }
 
 function App() {
+  const [isCollapsed, setIsCollapsed] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsCollapsed(window.innerWidth < 768);
+    };
+
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   return (
     <BrowserRouter>
       <div className="min-h-screen bg-gray-50">
-        <Navigation />
-        <div className="pl-64">
+        <Navigation isCollapsed={isCollapsed} />
+        <div className={isCollapsed ? 'pl-24' : 'pl-64'}> 
           <Header />
           <main className="container mx-auto">
             <Routes>

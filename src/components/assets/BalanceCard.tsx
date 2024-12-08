@@ -18,7 +18,7 @@ export function BalanceCard({ title, amount, isHighlighted, isProfit }: BalanceC
       <h3 className="text-sm text-gray-600 mb-1">{title}</h3>
       <p className={`text-lg font-bold ${getAmountColor()}`}>
         {isProfit && amount > 0 && '+'}
-        {amount.toLocaleString('ko-KR')} {title.includes('률') ? '%' : 'KRW'}
+        {amount != null ? amount.toLocaleString('ko-KR') : '0'} {title.includes('률') ? '%' : 'KRW'}
       </p>
     </div>
   );

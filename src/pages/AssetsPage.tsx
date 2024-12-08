@@ -39,7 +39,7 @@ export function AssetsPage() {
           });
   
           // assets 상태를 설정합니다.
-          const formattedAssets = data.assets_list.map((asset: any) => ({
+          const formattedAssets = data.assets_list?.map((asset: any) => ({
             symbol: asset.name.toUpperCase(),
             amount: asset.balance,
             averagePrice: asset.avg_price,

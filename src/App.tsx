@@ -13,6 +13,7 @@ import { ProfitsPage } from './pages/ProfitsPage';
 import { TradebotPage } from './pages/TradebotPage';
 import { OrderPage } from './pages/OrderPage';
 import { MarketPage } from './pages/MarketPage';
+import { DebugConsolePage } from './pages/DebugConsolePage';
 
 function Dashboard() {
   const stats = {
@@ -140,6 +141,7 @@ function App() {
               <Route path="/orders" element={<OrderPage />} />
               <Route path="/logs" element={<LogsPage />} />
               <Route path="/api" element={<ApiPage />} />
+              <Route path="/debug" element={<DebugConsolePage />} />
             </Routes>
           </main>
         </div>

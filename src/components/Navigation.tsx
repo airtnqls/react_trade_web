@@ -1,6 +1,4 @@
-// INSERT_YOUR_REWRITE_HERE
-
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { NavLink } from 'react-router-dom';
 import {
   LayoutDashboard,
@@ -13,6 +11,7 @@ import {
   Key,
   ShoppingCart,
   Bitcoin,
+  Terminal,
 } from 'lucide-react';
 
 const navItems = [
@@ -26,15 +25,16 @@ const navItems = [
   { path: '/orders', icon: ShoppingCart, label: '주문' },
   { path: '/logs', icon: FileText, label: '로그' },
   { path: '/api', icon: Key, label: 'API현황' },
+  { path: '/debug', icon: Terminal, label: '디버그' },
 ];
 
 interface NavigationProps {
-    isCollapsed: boolean;
-  }
+  isCollapsed: boolean;
+}
 
 export function Navigation({ isCollapsed }: NavigationProps) {
   return (
-    <nav className={`bg-white border-r border-gray-200 min-h-screen fixed left-0 top-0 ${isCollapsed ? 'w-24' : 'w-64'}`}> {/* 여기에 클래스를 추가합니다. */}
+    <nav className={`bg-white border-r border-gray-200 min-h-screen fixed left-0 top-0 ${isCollapsed ? 'w-24' : 'w-64'}`}>
       <div className="p-4">
         <div className="flex items-center space-x-2 mb-8 justify-center">
           <Bot className="w-7 h-7 text-blue-500 " />

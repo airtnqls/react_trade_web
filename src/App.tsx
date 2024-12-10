@@ -14,6 +14,7 @@ import { TradebotPage } from './pages/TradebotPage';
 import { OrderPage } from './pages/OrderPage';
 import { MarketPage } from './pages/MarketPage';
 import { DebugConsolePage } from './pages/DebugConsolePage';
+import { RecentTradesPage } from './pages/RecentTradesPage';
 
 function Dashboard() {
   const stats = {
@@ -110,7 +111,7 @@ function Dashboard() {
   );
 }
 
-function App() {
+export function App() {
   const [isCollapsed, setIsCollapsed] = useState(false);
 
   useEffect(() => {
@@ -136,7 +137,7 @@ function App() {
               <Route path="/markets" element={<MarketPage />} />
               <Route path="/tradebot" element={<TradebotPage />} />
               <Route path="/chatbot" element={<ChatbotPage />} />
-              <Route path="/trades" element={<RecentTrades trades={[]} />} />
+              <Route path="/trades" element={<RecentTradesPage />} />
               <Route path="/profits" element={<ProfitsPage />} />
               <Route path="/orders" element={<OrderPage />} />
               <Route path="/logs" element={<LogsPage />} />

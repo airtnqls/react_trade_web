@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { fetchApi } from '../utils/api';
 import { DateRangeFilter } from '../components/common/DateRangeFilter';
-import type { Order } from '../types/api';
+import type { TradeHistory } from '../types/api';
 
-export function OrderPage() {
-  const [orders, setOrders] = useState<Order[]>([]);
+export function RecentTradesPage() {
+  const [trades, setTrades] = useState<TradeHistory[]>([]);
   const [startDate, setStartDate] = useState(
     new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
   );
@@ -13,19 +13,19 @@ export function OrderPage() {
   );
 
   useEffect(() => {
-    fetchOrders();
+    fetchTrades();
   }, [startDate, endDate]);
 
-  const fetchOrders = async () => {
-    const data = await fetchApi<Order[]>(`/orders?start=${startDate}&end=${endDate}`);
+  const fetchTrades = async () => {
+    const data = await fetchApi<TradeHistory[]>(`/trades?start=${startDate}&end=${endDate}`);
     if (data) {
-      setOrders(data);
+      setTrades(data);
     }
   };
 
   return (
     <div className="p-6">
-      <h2 className="text-2xl font-bold mb-6">미체결 주문</h2>
+      <h2 className="text-2xl font-bold mb-6">거래 내역</h2>
 
       <DateRangeFilter
         startDate={startDate}
@@ -44,46 +44,43 @@ export function OrderPage() {
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">타입</th>
                 <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">가격</th>
                 <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">수량</th>
-                <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">체결</th>
+                <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">총액</th>
                 <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">상태</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
-              {orders.map((order) => (
-                <tr key={order.id}>
+              {trades.map((trade) => (
+                <tr key={trade.id}>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {new Date(order.date).toLocaleString()}
+                    {new Date(trade.date).toLocaleString()}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                    {order.pair}
+                    {trade.pair}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                      order.type === 'buy' ? 'bg-red-100 text-red-800' : 'bg-blue-100 text-blue-800'
+                      trade.type === 'buy' ? 'bg-red-100 text-red-800' : 'bg-blue-100 text-blue-800'
                     }`}>
-                      {order.type === 'buy' ? '매수' : '매도'}
+                      {trade.type === 'buy' ? '매수' : '매도'}
                     </span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-right text-gray-900">
-                    {order.price.toLocaleString()} KRW
+                    {trade.price.toLocaleString()} KRW
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-right text-gray-900">
-                    {order.amount.toFixed(8)}
+                    {trade.amount.toFixed(8)}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-right text-gray-900">
-                    {order.filled.toFixed(8)}
+                    {trade.total.toLocaleString()} KRW
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-center">
                     <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                      order.status === 'filled' ? 'bg-green-100 text-green-800' :
-                      order.status === 'partial' ? 'bg-yellow-100 text-yellow-800' :
-                      order.status === 'cancelled' ? 'bg-gray-100 text-gray-800' :
-                      'bg-blue-100 text-blue-800'
+                      trade.status === 'completed' ? 'bg-green-100 text-green-800' :
+                      trade.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
+                      'bg-red-100 text-red-800'
                     }`}>
-                      {order.status === 'filled' ? '체결완료' :
-                       order.status === 'partial' ? '부분체결' :
-                       order.status === 'cancelled' ? '취소됨' :
-                       '미체결'}
+                      {trade.status === 'completed' ? '완료' :
+                       trade.status === 'pending' ? '진행중' : '취소됨'}
                     </span>
                   </td>
                 </tr>
